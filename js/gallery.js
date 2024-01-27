@@ -64,71 +64,55 @@ const images = [
   },
 ];
 // Отримуємо елемент ul з класом .gallery
-const galleryList = document.querySelector('ul.gallery');
+const gallery = document.querySelector(".gallery");
 
 // Створення розмітки для галереї зображень
-const galleryMarkup = images.map(image => `
-<li class="gallery-item">
-  <a class="gallery-link" href="${image.original}">
+function createGallery({ preview, original, description }) {
+  return `
+  <li class="gallery-item">
+  <a class="gallery-link" href="${original}">
     <img
       class="gallery-image"
-      src="${image.preview}"
-      data-source="${image.original}"
-      alt="${image.description || 'Image'}" 
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
     />
   </a>
 </li>
-`).join('');
-
-// Додавання згенерованої розмітки до елементу ul з класом .gallery
-galleryList.innerHTML = galleryMarkup;
-
-// Створюємо модальне вікно
-const modal = basicLightbox.create(`
-<img src="" alt="" />
-`, {
-onShow: () => { document.addEventListener('keydown', keydownHandler); },
-onClose: () => { document.removeEventListener('keydown', keydownHandler); }
-});
-
-// Функція для обробки подій натискання клавіш
-const keydownHandler = function(e) {
-if (e.code === 'Escape') {
-  modal.close();
+`;
 }
-};
 
-// Функція для відкриття модального вікна зображення
-const openModal = (source) => {
-const content = `<img src="${source}" alt="Expanded Image" width="1112" height="640" />`;
-modal.element().innerHTML = content;
-modal.show();
-};
+function galleryClick(e) {
+  e.preventDefault();
+  if (e.target.nodeName !== "IMG") {
+    return;
+  }
+  const url = e.target.dataset.source;
+  const modal = basicLightbox.create(
+    `<img class="modal" src="${url}">`,
+    {
+      onShow: () => {
+        document.addEventListener("keydown", keyPress);
+      },
+      onClose: () => {
+        document.removeEventListener("keydown", keyPress);
+      },
+    }
+  );
 
-// Функція для закриття модального вікна
-const closeModal = () => {
-modal.close();
-};
+  modal.show();
 
-
-
-
-// Обробник подій кліку на зображенні для відкриття модального вікна
-modal.element().addEventListener('click', (event) => {
-if (event.target.nodeName === 'IMG') {
-  closeModal();
-}
-});
-
-// Обробник подій кліку на зображенні галереї
-galleryList.addEventListener("click", (event) => {
-event.preventDefault();
-const clickedGalleryItem = event.target.closest('.gallery-item');
-if (clickedGalleryItem) {
-  const clickedImage = clickedGalleryItem.querySelector('.gallery-image');
-  const clickedImageSource = clickedImage.dataset.source;
-  if (clickedImageSource) {
-    openModal(clickedImageSource);
+  function keyPress(elem) {
+    if (elem.key === "Escape") {
+      modal.close();
+    }
   }
 }
-});
+
+function newGallery() {
+  const galleryItemsHTML = images.map(createGallery).join("");
+  gallery.innerHTML = galleryItemsHTML;
+  gallery.addEventListener("click", galleryClick);
+}
+
+newGallery();

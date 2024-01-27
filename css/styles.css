@@ -1,22 +1,30 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+
 .gallery {
+  list-style-type: none;
   display: flex;
   flex-wrap: wrap;
-  list-style: none;
+  padding: 24px 156px;
+  ;
   gap: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-link {
+  text-decoration: none;
 }
 
 .gallery-image {
   width: 360px;
   height: 200px;
-  transition: transform 0.5s;
-  cursor: pointer;
 }
 
-.gallery-image:hover {
-  transform: scale(1.05);
-}
-
-.container {
-  width: 1200px;
-  padding: 10px;
+.modal {
+  width: 1112px;
+  height: 640px;
 }
