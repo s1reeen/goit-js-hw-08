@@ -63,23 +63,21 @@ const images = [
     description: "Lighthouse Coast Sea",
   },
 ];
-// Отримуємо елемент ul з класом .gallery
 const gallery = document.querySelector(".gallery");
 
-// Створення розмітки для галереї зображень
 function createGallery({ preview, original, description }) {
   return `
-  <li class="gallery-item">
-  <a class="gallery-link" href="${original}">
-    <img
-      class="gallery-image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
-    />
-  </a>
-</li>
-`;
+    <li class="gallery-item">
+      <a class="gallery-link" href="${original}">
+        <img
+          class="gallery-image"
+          src="${preview}"
+          data-source="${original}"
+          alt="${description}"
+        />
+      </a>
+    </li>
+  `;
 }
 
 function galleryClick(e) {
@@ -92,18 +90,18 @@ function galleryClick(e) {
     `<img class="modal" src="${url}">`,
     {
       onShow: () => {
-        document.addEventListener("keydown", keyPress);
+        document.addEventListener("keydown", handleKeyPress);
       },
       onClose: () => {
-        document.removeEventListener("keydown", keyPress);
+        document.removeEventListener("keydown", handleKeyPress);
       },
     }
   );
 
   modal.show();
 
-  function keyPress(elem) {
-    if (elem.key === "Escape") {
+  function handleKeyPress(event) {
+    if (event.code === "Escape") {
       modal.close();
     }
   }
