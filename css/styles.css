@@ -4,29 +4,23 @@ body {
 }
 
 .gallery {
-  padding-top: 30px;
   list-style-type: none;
   display: flex;
   flex-wrap: wrap;
+  padding: 24px 156px;
   gap: 24px;
   align-items: center;
   justify-content: center;
   max-width: 1200px;
-  margin: 0 auto;
 }
 
 .gallery-link {
   text-decoration: none;
 }
 
-.gallery-item {
-  display: flex;
-}
-
 .gallery-image {
   width: 360px;
   height: 200px;
-  margin: auto;
 }
 
 .modal {
